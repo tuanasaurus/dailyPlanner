@@ -31,12 +31,20 @@
     <div class="container">
       <!-- Timeblocks go here -->
     </div>
-
+    <script src="/Users/tuanphan/bootcamp/playGround/dailyPlanner/Assets/library/moment/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="./library/moment/moment.min.js"></script>
     <script>
-      console.log(moment());
+      // Creating the current date and Time with the string and format from moment.js codumenation
+    let dateTime = moment();
+    dateTime = moment().format('MMMM Do YYYY | h:mm a');
+    $("#currentDay").text(dateTime);
+
+
+    // console.log(moment());
+    // console.log(`toString() => ${dateTime.toString()}`);
+    // console.log(`toISOString() => ${dateTime.toISOString()}`);
+
     </script>
   </body>
 </html>
