@@ -159,4 +159,9 @@ $(".saveBtn").click(function(event) {
     displayTask();
 });
 
+$(".clearBtn").click(function(event) {
+    event.preventDefault();
+    localStorage.getItem("dailyPlanner", []);
+});
+
 });
