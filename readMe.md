@@ -17,7 +17,7 @@ If they reload the page the task will still be there.
 
 ## Final Result 
 
-![Image of final Layout](./Assets/dailyPlanner_layout.png)
+![Image of final Layout](./Assets/dailyPlanner_layout_reset.png)
 
 Website: https://tuanasaurus.github.io/dailyPlanner/
 GitHub: https://github.com/tuanasaurus
