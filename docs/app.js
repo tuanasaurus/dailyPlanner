@@ -87,25 +87,24 @@ function headerDate(){
 //creating the local storage to save the daily tasks
 function saveTask(){
     localStorage.setItem("dailyPlanner", JSON.stringify(dailyPlanner));
+    console.log("save task", dailyPlanner);
 }
 
 //Displaying the task in local storage to the page
 function displayTask (){
+    dailyPlanner = JSON.parse(localStorage.getItem("dailyPlanner"));
     dailyPlanner.forEach(function(thisHour){
-        $(`#${thisHour.id}`).val(thisHour.reminder);
-})
+        $(`#${thisHour.id}`).val(thisHour.task);
+    })
 }
 
 function init(){
-    console.log("testing Begining");
     const storedDayTask = JSON.parse(localStorage.getItem("dailyPlanner"));
 
     if(storedDayTask){
         dailyPlanner = storedDayTask;
     }
-    saveTask();
     displayTask();
-    console.log("testing Ending");
 }
 
 //creating the the daily planner 
@@ -118,29 +117,34 @@ dailyPlanner.forEach(function(thisHour){
     const hour = $("<div>")
     .text(`${thisHour.hour}${thisHour.meridiem}`)
     .attr({
-        "class": "col-md-2 hour"
+        "class": "col hour col-sm-2",
     });
     
-    const hourTask = $('<div>')
+    const hourTask = $("<div>")
     .attr({
-        "class": "col-md-9 description p-0"
+        "class": "description",
     });
-    const taskData = $("<textarea>");
+
+    const taskData = $("<textarea>")
+    .attr({
+        "class": "col col-sm-8",
+    });
+
     hourTask.append(taskData);
     taskData.attr("id", thisHour.id);
     if (thisHour.time < moment().format("HH")){
         taskData.attr({
-            "class": "past",
+            "class": "past col col-sm-8",
         })
     } else if (thisHour.time === moment().format("HH")){
         taskData.attr({
-            "class": "future"
+            "class": "future col col-sm-8",
         })
     }
 
     // Making the save button 
-    const saveButton = $("<button type='button' class='saveBtn'><i class='far fa-save fa-lg'></i></button>");
-    hourBlock.append(hour, hourTask, taskData, saveButton);
+    const saveButton = $("<button type='button' class='saveBtn col col-sm-2'><i class='far fa-save fa-lg'></i></button>");
+    hourBlock.append(hour, hourTask, taskData, saveButton,);
 });
 
 init();
@@ -148,13 +152,11 @@ headerDate();
 
 // Local storage event after click 
 $(".saveBtn").click(function(event) {
-    console.log("saveBtn", event)
     event.preventDefault();
-    // const saveIndex = $(this).siblings(".description").children(".future").attr("id");
-    // dailyPlanner[saveIndex].task = $(this).siblings(".description").children(".future").val();
-    // console.log(saveIndex);
-    // saveTask();
-    // displayTask();
+    const saveIndex = $(this).siblings("textarea").attr("id");
+    dailyPlanner[saveIndex].task = $(this).siblings("textarea").val();
+    saveTask();
+    displayTask();
 });
 
 });
