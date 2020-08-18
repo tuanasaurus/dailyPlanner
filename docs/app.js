@@ -77,6 +77,7 @@ let dailyPlanner = [
         task: ""
     },
 ]
+
 //Getting data from the header date
 function headerDate(){
     const currentHD = moment().format("dddd, MMMM Do")
@@ -87,7 +88,6 @@ function headerDate(){
 //creating the local storage to save the daily tasks
 function saveTask(){
     localStorage.setItem("dailyPlanner", JSON.stringify(dailyPlanner));
-    console.log("save task", dailyPlanner);
 }
 
 //Displaying the task in local storage to the page
@@ -98,12 +98,14 @@ function displayTask (){
     })
 }
 
+//Creating a clone of the dailyPlanner for the reset button 
+//Init the diaplay of the planner by grabbing the content in local storage
 function init(){
-    const storedDayTask = JSON.parse(localStorage.getItem("dailyPlanner"));
-
-    if(storedDayTask){
-        dailyPlanner = storedDayTask;
-    }
+    localStorage.setItem("blankDailyPlanner", JSON.stringify(dailyPlanner));
+    let storedDayTask = localStorage.getItem('dailyPlanner');
+    storedDayTask = storedDayTask ? JSON.parse(storedDayTask) : dailyPlanner;
+    dailyPlanner = storedDayTask;
+    saveTask();
     displayTask();
 }
 
@@ -150,7 +152,6 @@ dailyPlanner.forEach(function(thisHour){
 init();
 headerDate();
 
-// Local storage event after click 
 $(".saveBtn").click(function(event) {
     event.preventDefault();
     const saveIndex = $(this).siblings("textarea").attr("id");
@@ -159,9 +160,12 @@ $(".saveBtn").click(function(event) {
     displayTask();
 });
 
+// Local storage event after click 
 $(".clearBtn").click(function(event) {
     event.preventDefault();
-    localStorage.getItem("dailyPlanner", []);
+    const blankDailyPlanner = localStorage.getItem("blankDailyPlanner");
+    localStorage.setItem("dailyPlanner", blankDailyPlanner);
+    displayTask();
 });
 
 });
